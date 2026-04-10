@@ -19,6 +19,4 @@ public class Program
         } while (repeatProgramAgain == "1");
 
     }
-
-    
 }
