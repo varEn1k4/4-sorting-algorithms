@@ -34,7 +34,7 @@ public class ConsoleUI
             Console.Write("Enter minimal possible element (min = -1e7; max = 1e7): ");
             string input = Console.ReadLine();
 
-            isMinCorrect = float.TryParse(input, out min) && min >= -1e7D && min <= 1e7D;
+            isMinCorrect = float.TryParse(input, out min) && min >= -1e7F && min <= 1e7F;
 
             if (!isMinCorrect)
             {
@@ -54,7 +54,7 @@ public class ConsoleUI
             Console.Write($"Enter maximal possible element (min = {min + 1D}; max = 1e7): ");
             string input = Console.ReadLine();
 
-            isMaxCorrect = float.TryParse(input, out max) && max >= min + 1D && max <= 1e7D;
+            isMaxCorrect = float.TryParse(input, out max) && max >= min + 1F && max <= 1e7F;
             if (!isMaxCorrect)
             {
                 Console.WriteLine("wrong input 2");
@@ -99,8 +99,8 @@ public class ConsoleUI
             Console.WriteLine("3 - BucketSort");
             Console.WriteLine("4 - FlashSort");
 
-            string intput = Console.ReadLine();
-            isAlgTypeCorrect = ushort.TryParse(intput, out choice) && choice >= 1 && choice <= 4;
+            string input = Console.ReadLine();
+            isAlgTypeCorrect = ushort.TryParse(input, out choice) && choice >= 1 && choice <= 4;
 
             if (!isAlgTypeCorrect)
             {
@@ -121,8 +121,8 @@ public class ConsoleUI
             Console.WriteLine("1 - Ascending");
             Console.WriteLine("2 - Descending");
 
-            string intput = Console.ReadLine();
-            isSortDirectionCorrect = ushort.TryParse(intput, out choice) && choice >= 1 && choice <= 2;
+            string input = Console.ReadLine();
+            isSortDirectionCorrect = ushort.TryParse(input, out choice) && choice >= 1 && choice <= 2;
 
             if (!isSortDirectionCorrect)
             {

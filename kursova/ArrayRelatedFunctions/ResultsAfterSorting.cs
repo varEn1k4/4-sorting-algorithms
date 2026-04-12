@@ -8,6 +8,6 @@ namespace ArrayRelatedFunctions
     {
         public ulong CompareAmount {  get; set; }
         public ulong SwapsAmount { get; set; }
-        //maybe add type??
+        public double ExecutionTimeMs { get; set; }
     }
 }

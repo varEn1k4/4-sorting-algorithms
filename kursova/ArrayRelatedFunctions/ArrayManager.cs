@@ -36,7 +36,22 @@ namespace ArrayRelatedFunctions
 
         public static void WriteResultToFile(ResultsAfterSorting results, string algName)
         {
-            return;
+            string file = "results.txt";
+
+            try
+            {
+                using (StreamWriter sw = new StreamWriter(file))
+                {
+                    sw.WriteLine($"Algorithm: {algName}, Compare: {results.CompareAmount}, Swaps: {results.SwapsAmount}, Time: {results.ExecutionTimeMs}");
+                }
+
+                Console.WriteLine("Saved");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error: {e.Message}");
+            }
+
         }
     }
 }
