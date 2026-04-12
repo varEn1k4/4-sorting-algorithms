@@ -1,20 +1,163 @@
 ﻿using ArrayRelatedFunctions;
+using Sort;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace SortAlgorithms
 { 
-    public class BucketSort
+    public class BucketSort : BaseSorter
     {
-        public ResultsAfterSorting Acending(int[] array)
+        protected override void SortAscending(float[] array)
         {
-            return new ResultsAfterSorting();
+            float min = array[0];
+            float max = array[0];
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                comparisons += 2;
+
+                if (array[i] >  max)
+                {
+                    max = array[i];
+                }
+
+                if (array[i] < min)
+                {
+                    min = array[i];
+                }
+            }
+
+            if (max == min)
+            {
+                return;
+            }
+
+            int bucketCount = array.Length;
+            List<float>[] buckets = new List<float>[bucketCount];
+
+            for (int i =0; i < bucketCount; i++ )
+            {
+                buckets[i] = new List<float>();
+            }
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                int bucketIndex = (int)((array[i] - min) / (max - min) * (bucketCount - 1));
+                buckets[bucketIndex].Add(array[i]);
+                swaps++;
+            }
+
+            int currentIndex = 0;
+            for (int i = 0; i < bucketCount; i++)
+            {
+                if (buckets[i].Count > 0)
+                {
+                    InsertionSortBucket(buckets[i], true);
+
+                    foreach(float item in buckets[i])
+                    {
+                        array[currentIndex++] = item;
+                        swaps++;
+                    }
+                }
+            }
         }
 
-        public ResultsAfterSorting Descending(int[] array)
+        protected override void SortDescending(float[] array)
         {
-            return new ResultsAfterSorting();
+            float min = array[0];
+            float max = array[0];
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                comparisons += 2;
+
+                if (array[i] > max)
+                {
+                    max = array[i];
+                }
+
+                if (array[i] < min)
+                {
+                    min = array[i];
+                }
+            }
+
+            if (max == min)
+            {
+                return;
+            }
+
+            int bucketCount = array.Length;
+            List<float>[] buckets = new List<float>[bucketCount];
+
+            for (int i = 0; i < bucketCount; i++)
+            {
+                buckets[i] = new List<float>();
+            }
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                int bucketIndex = (int)((array[i] - min) / (max - min) * (bucketCount - 1));
+                buckets[bucketIndex].Add(array[i]);
+                swaps++;
+            }
+
+            int currentIndex = 0;
+            for (int i = bucketCount - 1; i >= 0; i--)
+            {
+                if (buckets[i].Count > 0)
+                {
+                    InsertionSortBucket(buckets[i], false);
+
+                    foreach (float item in buckets[i])
+                    {
+                        array[currentIndex++] = item;
+                        swaps++;
+                    }
+                }
+            }
+        }
+
+        private void InsertionSortBucket(List<float> bucket, bool ascending)
+        {
+            for (int i = 1; i < bucket.Count; i++)
+            {
+                float key = bucket[i];
+                int j = i - 1;
+
+                if (ascending)
+                {
+                    while (j >= 0 && bucket[j] > key)
+                    {
+                        comparisons++;
+                        bucket[j + 1] = bucket[j];
+                        swaps++;
+                        j--;
+                    }
+                    if (j >= 0)
+                    {
+                        comparisons++;
+                    }
+                }
+                else
+                {
+                    while (j >= 0 && bucket[j] < key)
+                    {
+                        comparisons++;
+                        bucket[j + 1] = bucket[j];
+                        swaps++;
+                        j--;
+                    }
+                    if (j >= 0)
+                    {
+                        comparisons++;
+                    }
+                }
+                bucket[j + 1] = key;
+                swaps++;
+            }
         }
     }
 }
