@@ -1,20 +1,21 @@
 ﻿using ArrayRelatedFunctions;
+using Sort;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace SortAlgorithms
 {
-    public class FlashSort
+    public class FlashSort : BaseSorter
     {
-        public ResultsAfterSorting Acending(int[] array)
+        protected override void SortAscending(float[] array)
         {
-            return new ResultsAfterSorting();
+
         }
 
-        public ResultsAfterSorting Descending(int[] array)
+        protected override void SortDescending(float[] array)
         {
-            return new ResultsAfterSorting();
+
         }
     }
 }
