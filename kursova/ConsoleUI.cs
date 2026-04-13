@@ -1,6 +1,9 @@
 ﻿using ArrayRelatedFunctions;
+using Sort;
+using SortAlgorithms;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 public class ConsoleUI
@@ -31,18 +34,25 @@ public class ConsoleUI
         float min = 0;
         do
         {
-            Console.Write("Enter minimal possible element (min = -1e7; max = 1e7): ");
+            Console.Write("Enter minimal possible element (min = -1e7; max = 1e7; precision = 1e-5): ");
             string input = Console.ReadLine();
 
             isMinCorrect = float.TryParse(input, out min) && min >= -1e7F && min <= 1e7F;
 
+            if (isMinCorrect && min != 0 && Math.Abs(min) < 1e-5f)
+            {
+                Console.WriteLine("Warning: Input value is too small");
+                isMinCorrect = false;
+            }
+
             if (!isMinCorrect)
             {
-                Console.WriteLine("wrong input 2");
+                Console.WriteLine("Error: Wrong input");
             }
+
         } while (!isMinCorrect);
 
-        return min;
+        return (float)Math.Round(min, 5);
     }
 
     public static float GetMax(float min)
@@ -55,6 +65,13 @@ public class ConsoleUI
             string input = Console.ReadLine();
 
             isMaxCorrect = float.TryParse(input, out max) && max >= min + 1F && max <= 1e7F;
+
+            if (isMaxCorrect && min != 0 && Math.Abs(max) < 1e-5f)
+            {
+                Console.WriteLine("Warning: Input value is too small");
+                isMaxCorrect = false;
+            }
+
             if (!isMaxCorrect)
             {
                 Console.WriteLine("wrong input 2");
@@ -131,5 +148,29 @@ public class ConsoleUI
         } while (!isSortDirectionCorrect);
 
         return (SortDirection)choice;
+    }
+
+    public static void DisplayResults(BaseSorter sorter, float[] array, string algName, bool ascending)
+    {
+        string direction = ascending ? "Ascending" : "Descending";
+        Console.WriteLine($"Algorithm - {algName}; Direction - {direction}");
+
+        float[] copyOfArray = (float[])array.Clone();
+        Console.WriteLine($"Size of array: {copyOfArray.Length}\n");
+
+        ResultsAfterSorting results;
+
+        if (ascending)
+        {
+            results = sorter.Ascending(copyOfArray);
+        }
+        else
+        {
+            results = sorter.Descending(copyOfArray);
+        }
+
+        Console.WriteLine($"Spent Time: {results.ExecutionTimeMs}");
+        Console.WriteLine($"Compare Amount: {results.CompareAmount}");
+        Console.WriteLine($"Swaps Amount: {results.SwapsAmount}");
     }
 }

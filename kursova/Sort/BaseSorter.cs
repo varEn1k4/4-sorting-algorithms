@@ -16,38 +16,32 @@ namespace Sort
 
         public ResultsAfterSorting Ascending(float[] array)
         {
-            comparisons = 0;
-            swaps = 0;
-            Stopwatch time = Stopwatch.StartNew();
-
-            SortAscending(array);
-
-            time.Stop();
-
-            return new ResultsAfterSorting
-            {
-                CompareAmount = comparisons,
-                SwapsAmount = swaps,
-                ExecutionTimeMs = time.Elapsed.TotalMilliseconds
-            };
+            return SortInDirection(array, true);
         }
 
         public ResultsAfterSorting Descending(float[] array)
+        {
+            return SortInDirection(array, false);
+        }
+
+        private ResultsAfterSorting SortInDirection(float[] array, bool ascending)
         {
             comparisons = 0;
             swaps = 0;
             Stopwatch time = Stopwatch.StartNew();
 
-            SortDescending(array);
+            if (ascending)
+            {
+                SortAscending(array);
+            }
+            else
+            {
+                SortDescending(array);
+            }
 
             time.Stop();
 
-            return new ResultsAfterSorting
-            {
-                CompareAmount = comparisons,
-                SwapsAmount = swaps,
-                ExecutionTimeMs = time.Elapsed.TotalMilliseconds
-            };
+            return new ResultsAfterSorting(comparisons, swaps, time.Elapsed.TotalMilliseconds);
         }
     }
 }

@@ -8,12 +8,12 @@ namespace ArrayRelatedFunctions
     {
         public static float[] CreateArray(int size, float min, float max, GenerationType type)
         {
-            Random rnd = new Random();
+            Random random = new Random();
             float[] array = new float[size];
 
             for (int i = 0; i < size; i++)
             {
-                array[i] = (float)(rnd.NextDouble() * (max - min) + min); 
+                array[i] = (float)(random.NextDouble() * (max - min) + min); 
             }
 
             switch (type)
