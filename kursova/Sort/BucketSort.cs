@@ -20,6 +20,11 @@ namespace SortAlgorithms
 
         private void BucketSortMain(float[] array, bool ascending)
         {
+            if (array.Length == 0)
+            {
+                return;
+            }
+
             float min = array[0];
             float max = array[0];
 

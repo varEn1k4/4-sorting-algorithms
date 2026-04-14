@@ -34,15 +34,16 @@ namespace ArrayRelatedFunctions
             return array;
         }
 
-        public static void WriteResultToFile(ResultsAfterSorting results, string algName)
+        public static void WriteResultToFile(ResultsAfterSorting results, string algName, bool ascending, int size, GenerationType type)
         {
-            string file = "results.txt";
-
             try
             {
-                using (StreamWriter sw = new StreamWriter(file))
+                using (StreamWriter sw = new StreamWriter(Constants.ResultFile, true))
                 {
-                    sw.WriteLine($"Algorithm: {algName}, Compare: {results.CompareAmount}, Swaps: {results.SwapsAmount}, Time: {results.ExecutionTimeMs}");
+                    string direction = ascending ? "Ascending" : "Descending";
+                    string time = DateTime.Now.ToString("HH:mm:ss");
+
+                    sw.WriteLine($"[{time}] {algName} ({direction}) | Size: {size} | Time: {results.ExecutionTimeMs}ms | Compare: {results.CompareAmount} | Swaps: {results.SwapsAmount}");
                 }
 
                 Console.WriteLine("Saved");

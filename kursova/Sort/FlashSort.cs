@@ -10,6 +10,11 @@ namespace SortAlgorithms
     {
         protected override void SortAscending(float[] array)
         {
+            if (array.Length == 0)
+            {
+                return;
+            }
+
             int m = (int)(0.45 * array.Length);
             if (m <= 0)
             {

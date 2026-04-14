@@ -14,15 +14,18 @@ public class ConsoleUI
         int sizeOfArray = 0;
         do
         {
-            Console.Write("Enter size of array (from 100 elements to 50000): ");
+            Console.Write($"Enter size of array (from {Constants.MinArraySize} elements to {Constants.MaxArraySize}): ");
             string input = Console.ReadLine();
 
-            isSizeOfArrayCorrect = int.TryParse(input, out sizeOfArray) && sizeOfArray >= 100 && sizeOfArray <= 50000;
+            isSizeOfArrayCorrect = int.TryParse(input, out sizeOfArray)
+                && sizeOfArray >= Constants.MinArraySize
+                && sizeOfArray <= Constants.MaxArraySize;
 
             if (!isSizeOfArrayCorrect)
             {
-                Console.WriteLine("wrong input");
+                Console.WriteLine("Eror: wrong input");
             }
+
         } while (!isSizeOfArrayCorrect);
 
         return sizeOfArray;
@@ -34,12 +37,12 @@ public class ConsoleUI
         float min = 0;
         do
         {
-            Console.Write("Enter minimal possible element (min = -1e7; max = 1e7; precision = 1e-5): ");
+            Console.Write($"Enter minimal possible element (min = {Constants.MinLimit}; max = {Constants.MaxLimit}; precision = {Constants.Precision}): ");
             string input = Console.ReadLine();
 
-            isMinCorrect = float.TryParse(input, out min) && min >= -1e7F && min <= 1e7F;
+            isMinCorrect = float.TryParse(input, out min) && min >= Constants.MinLimit && min <= Constants.MaxLimit;
 
-            if (isMinCorrect && min != 0 && Math.Abs(min) < 1e-5f)
+            if (isMinCorrect && min != 0 && Math.Abs(min) < Constants.Precision)
             {
                 Console.WriteLine("Warning: Input value is too small");
                 isMinCorrect = false;
@@ -52,7 +55,7 @@ public class ConsoleUI
 
         } while (!isMinCorrect);
 
-        return (float)Math.Round(min, 5);
+        return (float)Math.Round(min, Constants.PrecisionDecimalPlaces);
     }
 
     public static float GetMax(float min)
@@ -61,12 +64,12 @@ public class ConsoleUI
         float max = 0;
         do
         {
-            Console.Write($"Enter maximal possible element (min = {min + 1D}; max = 1e7): ");
+            Console.Write($"Enter maximal possible element (min = {min + 1D}; max = {Constants.MaxLimit}): ");
             string input = Console.ReadLine();
 
-            isMaxCorrect = float.TryParse(input, out max) && max >= min + 1F && max <= 1e7F;
+            isMaxCorrect = float.TryParse(input, out max) && max >= min + 1F && max <= Constants.MaxLimit;
 
-            if (isMaxCorrect && min != 0 && Math.Abs(max) < 1e-5f)
+            if (isMaxCorrect && max != 0 && Math.Abs(max) < Constants.Precision)
             {
                 Console.WriteLine("Warning: Input value is too small");
                 isMaxCorrect = false;
@@ -74,8 +77,9 @@ public class ConsoleUI
 
             if (!isMaxCorrect)
             {
-                Console.WriteLine("wrong input 2");
+                Console.WriteLine("Error: wrong input");
             }
+
         } while (!isMaxCorrect);
         return max;
     }
@@ -90,6 +94,7 @@ public class ConsoleUI
             Console.WriteLine("1 - random");
             Console.WriteLine("2 - sorted");
             Console.WriteLine("3 - reversed sorted");
+            Console.Write("-> ");
 
             string input = Console.ReadLine();
 
@@ -115,6 +120,7 @@ public class ConsoleUI
             Console.WriteLine("2 - RadixSort");
             Console.WriteLine("3 - BucketSort");
             Console.WriteLine("4 - FlashSort");
+            Console.Write("-> ");
 
             string input = Console.ReadLine();
             isAlgTypeCorrect = ushort.TryParse(input, out choice) && choice >= 1 && choice <= 4;
@@ -134,9 +140,10 @@ public class ConsoleUI
         bool isSortDirectionCorrect = false;
         do
         {
-            Console.WriteLine("choose type of sorting:");
+            Console.WriteLine("Choose type of sorting:");
             Console.WriteLine("1 - Ascending");
             Console.WriteLine("2 - Descending");
+            Console.Write("-> ");
 
             string input = Console.ReadLine();
             isSortDirectionCorrect = ushort.TryParse(input, out choice) && choice >= 1 && choice <= 2;
@@ -150,7 +157,23 @@ public class ConsoleUI
         return (SortDirection)choice;
     }
 
-    public static void DisplayResults(BaseSorter sorter, float[] array, string algName, bool ascending)
+    public static bool AskUserToKeepSortingWithSameArray()
+    {
+        Console.WriteLine();
+        Console.Write("Do you want to keep the same array but change algorithm/direction? (1 - yes; 0 - no): ");
+        string input = Console.ReadLine();
+        return input == "1";
+    }
+
+    public static bool AskUserToRunProgramAgain()
+    {
+        Console.WriteLine();
+        Console.Write("Do you want to star programm again (1 - yes; 0 - no): ");
+        string input = Console.ReadLine();
+        return input == "1";
+    }
+
+    public static ResultsAfterSorting DisplayResults(BaseSorter sorter, float[] array, string algName, bool ascending)
     {
         string direction = ascending ? "Ascending" : "Descending";
         Console.WriteLine($"Algorithm - {algName}; Direction - {direction}");
@@ -172,5 +195,7 @@ public class ConsoleUI
         Console.WriteLine($"Spent Time: {results.ExecutionTimeMs}");
         Console.WriteLine($"Compare Amount: {results.CompareAmount}");
         Console.WriteLine($"Swaps Amount: {results.SwapsAmount}");
+
+        return results;
     }
 }

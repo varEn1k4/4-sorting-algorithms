@@ -10,39 +10,58 @@ namespace SortAlgorithms
     {
         protected override void SortAscending(float[] array)
         {
-            BucketSortMain(array, true);
+            CountingSortMain(array, true);
         }
 
         protected override void SortDescending(float[] array)
         {
-            BucketSortMain(array, false);
+            CountingSortMain(array, false);
         }
 
-        private void BucketSortMain(float[] array, bool ascending)
+        private void CountingSortMain(float[] array, bool ascending)
         {
+            if (array.Length == 0)
+            {
+                return;
+            }
+
             long[] arrayLong = new long[array.Length];
             for (int i = 0; i < array.Length; i++)
             {
                 arrayLong[i] = (long)Math.Round(array[i] * 1e5F);
             }
 
-            long maxElement = 0;
+            long minElement = arrayLong[0];
+            long maxElement = arrayLong[0];
 
-            for (int i = 0; i < arrayLong.Length; i++)
+            for (int i = 1; i < arrayLong.Length; i++)
             {
-                comparisons++;
+                comparisons += 2;
+
+                if (arrayLong[i] < minElement)
+                {
+                    minElement = arrayLong[i];
+                }
+
                 if (arrayLong[i] > maxElement)
                 {
                     maxElement = arrayLong[i];
                 }
             }
 
+            if (minElement < 0)
+            {
+                for (int i = 0;  i < arrayLong.Length; i++)
+                {
+                    arrayLong[i] -= minElement;
+                }
+                maxElement -= minElement;
+            }
             long[] arrayLongForIndexes = new long[(int)maxElement + 1];
 
             for (int i = 0; i < arrayLong.Length; i++)
             {
                 arrayLongForIndexes[arrayLong[i]]++;
-                swaps++;
             }
 
 
@@ -51,7 +70,6 @@ namespace SortAlgorithms
                 for (int i = 1; i < arrayLongForIndexes.Length; i++)
                 {
                     arrayLongForIndexes[i] = arrayLongForIndexes[i - 1] + arrayLongForIndexes[i];
-                    swaps++;
                 }
             }
             else
@@ -59,7 +77,6 @@ namespace SortAlgorithms
                 for (int i = arrayLongForIndexes.Length - 2; i >= 0; i--)
                 {
                     arrayLongForIndexes[i] = arrayLongForIndexes[i] + arrayLongForIndexes[i + 1];
-                    swaps++;
                 }
             }
 
@@ -70,6 +87,14 @@ namespace SortAlgorithms
                 resultArray[arrayLongForIndexes[arrayLong[i]] - 1] = arrayLong[i];
                 arrayLongForIndexes[arrayLong[i]]--;
                 swaps++;
+            }
+
+            if (minElement < 0)
+            {
+                for (int i = 0;  i < resultArray.Length; i++)
+                {
+                    resultArray[i] += minElement;
+                }
             }
 
             for (int i = 0; i < array.Length; i++)

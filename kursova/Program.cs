@@ -6,49 +6,58 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        string repeatProgramAgain;
+        bool repeatProgramAgain;
         do
         {
+            bool keepSameArray;
+
             int size = ConsoleUI.GetSize();
             float min = ConsoleUI.GetMin();
             float max = ConsoleUI.GetMax(min);
-            float[] array = ArrayRelatedFunctions.ArrayManager.CreateArray(size, min, max, ConsoleUI.GetGenerationType());
+            GenerationType generationType = ConsoleUI.GetGenerationType();
+            float[] array = ArrayRelatedFunctions.ArrayManager.CreateArray(size, min, max, generationType);
 
-            AlgorithmType algorithmType = ConsoleUI.GetAlgorithmType();
-            SortDirection sortDirection = ConsoleUI.GetSortDirection();
-
-            BaseSorter sorter = null;
-            string algName = "";
-
-            switch (algorithmType)
+            do
             {
-                case AlgorithmType.CountingSort:
-                    sorter = new CountingSort();
-                    algName = "Counting Sort";
-                    break;
+                AlgorithmType algorithmType = ConsoleUI.GetAlgorithmType();
+                SortDirection sortDirection = ConsoleUI.GetSortDirection();
 
-                case AlgorithmType.RadixSort:
-                    sorter = new RadixSort();
-                    algName = "Radix Sort";
-                    break;
+                BaseSorter sorter = null;
+                string algName = "";
 
-                case AlgorithmType.BucketSort:
-                    sorter = new BucketSort();
-                    algName = "Bucket Sort";
-                    break;
+                switch (algorithmType)
+                {
+                    case AlgorithmType.CountingSort:
+                        sorter = new CountingSort();
+                        algName = "Counting Sort";
+                        break;
 
-                case AlgorithmType.FlashSort: 
-                    sorter = new FlashSort();
-                    algName = "Flash Sort";
-                    break;
-            }
+                    case AlgorithmType.RadixSort:
+                        sorter = new RadixSort();
+                        algName = "Radix Sort";
+                        break;
 
-            bool isAscending = sortDirection == SortDirection.Ascending;
-            ConsoleUI.
+                    case AlgorithmType.BucketSort:
+                        sorter = new BucketSort();
+                        algName = "Bucket Sort";
+                        break;
 
-            Console.WriteLine("Do you want to star programm again (1 - yes; 0 - no): ");
-            repeatProgramAgain = Console.ReadLine();
-        } while (repeatProgramAgain == "1");
+                    case AlgorithmType.FlashSort:
+                        sorter = new FlashSort();
+                        algName = "Flash Sort";
+                        break;
+                }
 
+                bool isAscending = sortDirection == SortDirection.Ascending;
+
+                ResultsAfterSorting finalResults = ConsoleUI.DisplayResults(sorter, array, algName, isAscending);
+                ArrayRelatedFunctions.ArrayManager.WriteResultToFile(finalResults, algName, isAscending, size, generationType);
+                keepSameArray = ConsoleUI.AskUserToKeepSortingWithSameArray();
+
+            } while (keepSameArray);
+
+            repeatProgramAgain = ConsoleUI.AskUserToRunProgramAgain();
+
+        } while (repeatProgramAgain);
     }
 }

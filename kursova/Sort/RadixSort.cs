@@ -20,6 +20,11 @@ namespace SortAlgorithms
 
         private void RadixSortMain(float[] array, bool ascending)
         {
+            if (array.Length == 0)
+            {
+                return;
+            }
+
             long[] arrayLong = new long[array.Length];
             for (int i = 0; i < array.Length; i++)
             {
