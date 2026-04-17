@@ -51,7 +51,7 @@ public class Program
                 bool isAscending = sortDirection == SortDirection.Ascending;
 
                 ResultsAfterSorting finalResults = ConsoleUI.DisplayResults(sorter, array, algName, isAscending);
-                ArrayRelatedFunctions.ArrayManager.WriteResultToFile(finalResults, algName, isAscending, size, generationType);
+                ArrayRelatedFunctions.FileOperations.WriteResultToFile(finalResults, algName, isAscending, size, generationType);
                 keepSameArray = ConsoleUI.AskUserToKeepSortingWithSameArray();
 
             } while (keepSameArray);

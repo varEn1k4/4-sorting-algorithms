@@ -40,7 +40,9 @@ public class ConsoleUI
             Console.Write($"Enter minimal possible element (min = {Constants.MinLimit}; max = {Constants.MaxLimit}; precision = {Constants.Precision}): ");
             string input = Console.ReadLine();
 
-            isMinCorrect = float.TryParse(input, out min) && min >= Constants.MinLimit && min <= Constants.MaxLimit;
+            isMinCorrect = float.TryParse(input, out min)
+                && min >= Constants.MinLimit
+                && min <= Constants.MaxLimit;
 
             if (isMinCorrect && min != 0 && Math.Abs(min) < Constants.Precision)
             {
@@ -102,7 +104,7 @@ public class ConsoleUI
 
             if (!isChoiceCorrect)
             {
-                Console.WriteLine("wrong input");
+                Console.WriteLine("Error: wrong input");
             }
         } while (!isChoiceCorrect);
 
@@ -127,7 +129,7 @@ public class ConsoleUI
 
             if (!isAlgTypeCorrect)
             {
-                Console.WriteLine("wrong input");
+                Console.WriteLine("Error: wrong input");
             }
         } while (!isAlgTypeCorrect);
 
@@ -150,7 +152,7 @@ public class ConsoleUI
 
             if (!isSortDirectionCorrect)
             {
-                Console.WriteLine("wrong input");
+                Console.WriteLine("Erroe: wrong input");
             }
         } while (!isSortDirectionCorrect);
 
@@ -170,6 +172,16 @@ public class ConsoleUI
         Console.WriteLine();
         Console.Write("Do you want to star programm again (1 - yes; 0 - no): ");
         string input = Console.ReadLine();
+        
+        if (input == "1")
+        {
+            ArrayRelatedFunctions.FileOperations.FileLever($"{Constants.ChangeArrayLever}");
+        }
+        else
+        {
+            ArrayRelatedFunctions.FileOperations.FileLever($"{Constants.EndOfSession}");
+        }
+
         return input == "1";
     }
 

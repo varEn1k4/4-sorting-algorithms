@@ -14,4 +14,6 @@ public class Constants
     public const int PrecisionDecimalPlaces = 5;
 
     public const string ResultFile = "results.txt";
+    public const string ChangeArrayLever = "[Changed Array]";
+    public const string EndOfSession = "[End]";
 }
