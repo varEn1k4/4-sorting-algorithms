@@ -4,7 +4,7 @@ using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
 using ScottPlot;
-
+using Variables;
 
 namespace ArrayRelatedFunctions
 {
@@ -73,4 +73,5 @@ namespace ArrayRelatedFunctions
             myPlot.SavePng(fileName, 800, 600);
         }
     }
+
 }

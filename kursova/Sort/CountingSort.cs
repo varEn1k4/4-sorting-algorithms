@@ -1,5 +1,4 @@
-﻿using ArrayRelatedFunctions;
-using Sort;
+﻿using Sort;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -59,7 +58,7 @@ namespace SortAlgorithms
                 maxElement -= minElement;
             }
 
-            if (maxElement < 0 || maxElement > 5e7)
+            if (maxElement < 0 || maxElement > 5e8)
             {
                 Console.WriteLine("Stack Overflow");
 

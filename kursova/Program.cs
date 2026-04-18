@@ -1,6 +1,8 @@
 ﻿using ArrayRelatedFunctions;
 using Sort;
 using SortAlgorithms;
+using Variables;
+using ArrayRelatedFunctions;
 
 public class Program
 {
@@ -15,7 +17,7 @@ public class Program
             float min = ConsoleUI.GetMin();
             float max = ConsoleUI.GetMax(min);
             GenerationType generationType = ConsoleUI.GetGenerationType();
-            float[] array = ArrayRelatedFunctions.ArrayManager.CreateArray(size, min, max, generationType);
+            float[] array = ArrayManager.CreateArray(size, min, max, generationType);
 
             do
             {
@@ -51,7 +53,7 @@ public class Program
                 bool isAscending = sortDirection == SortDirection.Ascending;
 
                 ResultsAfterSorting finalResults = ConsoleUI.DisplayResults(sorter, array, algName, isAscending);
-                ArrayRelatedFunctions.FileOperations.WriteResultToFile(finalResults, algName, isAscending, size, generationType);
+                FileOperations.WriteResultToFile(finalResults, algName, isAscending, size, generationType);
                 keepSameArray = ConsoleUI.AskUserToKeepSortingWithSameArray();
 
             } while (keepSameArray);
@@ -60,7 +62,7 @@ public class Program
 
         } while (repeatProgramAgain);
 
-        List<AlgorithmData> results = ArrayRelatedFunctions.FileOperations.GetAlgorithmDatas();
+        List<AlgorithmData> results = FileOperations.GetAlgorithmDatas();
 
         if (results.Count == 4)
         {

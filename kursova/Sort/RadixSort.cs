@@ -1,5 +1,4 @@
-﻿using ArrayRelatedFunctions;
-using Sort;
+﻿using Sort;
 using System;
 using System.Collections.Generic;
 using System.Text;

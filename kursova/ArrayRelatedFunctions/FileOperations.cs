@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Variables;
 
 namespace ArrayRelatedFunctions
 {
@@ -132,7 +133,7 @@ namespace ArrayRelatedFunctions
                     SwapsAmount = swapsAmount
                 };
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 return null;
             }

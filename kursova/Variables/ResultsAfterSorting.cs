@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ArrayRelatedFunctions
+namespace Variables
 {
     public class ResultsAfterSorting
     {
-        public ulong CompareAmount {  get; set; }
+        public ulong CompareAmount { get; set; }
         public ulong SwapsAmount { get; set; }
         public double ExecutionTimeMs { get; set; }
 
@@ -17,4 +17,5 @@ namespace ArrayRelatedFunctions
             this.ExecutionTimeMs = executionTimeMs;
         }
     }
+
 }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Variables;
+
 
 namespace ArrayRelatedFunctions
 {
@@ -13,19 +15,19 @@ namespace ArrayRelatedFunctions
 
             for (int i = 0; i < size; i++)
             {
-                array[i] = (float)(random.NextDouble() * (max - min) + min); 
+                array[i] = (float)(random.NextDouble() * (max - min) + min);
             }
 
             switch (type)
             {
-                case ArrayRelatedFunctions.GenerationType.Random:
+                case GenerationType.Random:
                     break;
 
-                case ArrayRelatedFunctions.GenerationType.Ascending:
+                case GenerationType.Ascending:
                     Array.Sort(array);
                     break;
 
-                case ArrayRelatedFunctions.GenerationType.Descending:
+                case GenerationType.Descending:
                     Array.Sort(array);
                     Array.Reverse(array);
                     break;

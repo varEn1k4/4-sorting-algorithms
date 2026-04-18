@@ -1,5 +1,6 @@
-﻿using ArrayRelatedFunctions;
+﻿using Variables;
 using Sort;
+using ArrayRelatedFunctions;
 using SortAlgorithms;
 using System;
 using System.Collections.Generic;
@@ -106,6 +107,7 @@ public class ConsoleUI
             {
                 Console.WriteLine("Error: wrong input");
             }
+
         } while (!isChoiceCorrect);
 
         return (GenerationType)choice;
@@ -131,6 +133,7 @@ public class ConsoleUI
             {
                 Console.WriteLine("Error: wrong input");
             }
+
         } while (!isAlgTypeCorrect);
 
         return (AlgorithmType)choice;
@@ -154,6 +157,7 @@ public class ConsoleUI
             {
                 Console.WriteLine("Erroe: wrong input");
             }
+
         } while (!isSortDirectionCorrect);
 
         return (SortDirection)choice;
@@ -175,11 +179,11 @@ public class ConsoleUI
         
         if (input == "1")
         {
-            ArrayRelatedFunctions.FileOperations.FileLever($"{Constants.ChangeArrayLever}");
+            FileOperations.FileLever($"{Constants.ChangeArrayLever}");
         }
         else
         {
-            ArrayRelatedFunctions.FileOperations.FileLever($"{Constants.EndOfSession}");
+            FileOperations.FileLever($"{Constants.EndOfSession}");
         }
 
         return input == "1";
