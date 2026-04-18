@@ -59,5 +59,19 @@ public class Program
             repeatProgramAgain = ConsoleUI.AskUserToRunProgramAgain();
 
         } while (repeatProgramAgain);
+
+        List<AlgorithmData> results = new List<AlgorithmData>();
+
+        if (results.Count == 4)
+        {
+            Visualization visualize = new Visualization();
+
+            foreach (AlgorithmData data in results)
+            {
+                visualize.AddAlgorithmStats(data);
+            }
+
+            visualize.ShowStats();
+        }
     }
 }

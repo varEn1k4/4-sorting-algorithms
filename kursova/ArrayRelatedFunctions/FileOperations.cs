@@ -38,5 +38,104 @@ namespace ArrayRelatedFunctions
                 Console.WriteLine($"Error: {e.Message}");
             }
         }
+
+        public static List<AlgorithmData> GetAlgorithmDatas()
+        {
+            List<AlgorithmData> latestResults = new List<AlgorithmData>();
+
+            string[] lines = File.ReadAllLines(Constants.ResultFile);
+
+            string currentDirection = null;
+            int currentSize = 0;
+
+            for (int i = lines.Length - 1; i >= 0; i--)
+            {
+                string line = lines[i];
+
+                if (line == $"{Constants.ChangeArrayLever}" || line == $"{Constants.EndOfSession}")
+                {
+                    if (latestResults.Count > 0 && latestResults.Count < 4)
+                    {
+                        latestResults.Clear();
+                    }
+
+                    continue;
+                }
+
+                AlgorithmData algData = ParseLogLineData(line);
+
+                if (algData != null)
+                {
+                    if (latestResults.Count == 0)
+                    {
+                        currentDirection = algData.Direction;
+                        currentSize = algData.Size;
+                        latestResults.Add(algData);
+                    }
+                    else if (algData.Direction == currentDirection && algData.Size == currentSize)
+                    {
+                        latestResults.Add(algData);
+                    }
+                    else
+                    {
+                        latestResults.Clear();
+                        currentDirection = algData.Direction;
+                        currentSize = algData.Size;
+                        latestResults.Add(algData);
+                    }
+                }
+
+                if (latestResults.Count == 4)
+                {
+                    break;
+                }
+            }
+
+            latestResults.Reverse();
+            return latestResults;
+        }
+
+        public static AlgorithmData ParseLogLineData(string line)
+        {
+            try
+            {
+                string[] parts = line.Split('|');
+                if (parts.Length < 5)
+                {
+                    return null;
+                }
+
+                string part0 = parts[0];
+                int lastBacketIndex = part0.IndexOf(']');
+                string nameAndDirection = part0.Substring(lastBacketIndex + 1);
+
+                int parenStart = nameAndDirection.IndexOf('(');
+                int parenEnd = nameAndDirection.IndexOf(')');
+                string name = nameAndDirection.Substring(0, parenStart);
+                string direction = nameAndDirection.Substring(parenStart + 1, parenEnd - 1);
+
+                int size = int.Parse(parts[1].Replace("Size:", ""));
+
+                double time = double.Parse(parts[2].Replace("Time:", "").Replace("ms", ""));
+
+                int compareAmount = int.Parse(parts[3].Replace("Compare: ", ""));
+
+                int swapsAmount = int.Parse(parts[4].Replace("Swaps: ", ""));
+
+                return new AlgorithmData
+                {
+                    Name = name,
+                    Direction = direction,
+                    Size = size,
+                    Time = time,
+                    CompareAmount = compareAmount,
+                    SwapsAmount = swapsAmount
+                };
+            }
+            catch
+            {
+                return null;
+            }
+        }
     }
 }

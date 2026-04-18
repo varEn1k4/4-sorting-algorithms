@@ -1,22 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Drawing;
 using System.Windows.Forms;
 
 
 namespace ArrayRelatedFunctions
 {
+    public class AlgorithmData
+    {
+        public string Name { get; set; }
+        public string Direction { get; set; }
+        public int Size { get; set; }
+        public int CompareAmount { get; set; }
+        public int SwapsAmount { get; set; }
+        public double Time { get; set; }
+    }
     public class Visualization
     {
         private List<AlgorithmData> _stats;
-        private class AlgorithmData
-        {
-            public string Name { get; set; }
-            public int CompareAmount { get; set; }
-            public int SwapsAmount { get; set; }
-            public double Time { get; set; }
-        }
-
+        
         public Visualization()
         {
             _stats = new List<AlgorithmData>();
@@ -40,7 +43,9 @@ namespace ArrayRelatedFunctions
             form.Size = new Size(800, 600);
             form.StartPosition = FormStartPosition.CenterScreen;
 
-            
+            TabControl tabControl = new TabControl();
+
+            tabControl.TabPages.Add()
         }
     }
 }
