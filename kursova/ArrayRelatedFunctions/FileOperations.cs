@@ -111,16 +111,16 @@ namespace ArrayRelatedFunctions
 
                 int parenStart = nameAndDirection.IndexOf('(');
                 int parenEnd = nameAndDirection.IndexOf(')');
-                string name = nameAndDirection.Substring(0, parenStart);
-                string direction = nameAndDirection.Substring(parenStart + 1, parenEnd - 1);
+                string name = nameAndDirection.Substring(0, parenStart).Trim();
+                string direction = nameAndDirection.Substring(parenStart + 1, parenEnd - parenStart - 1).Trim();
 
-                int size = int.Parse(parts[1].Replace("Size:", ""));
+                int size = int.Parse(parts[1].Replace("Size:", "").Trim());
 
-                double time = double.Parse(parts[2].Replace("Time:", "").Replace("ms", ""));
+                double time = double.Parse(parts[2].Replace("Time:", "").Replace("ms", "").Trim(), System.Globalization.CultureInfo.InvariantCulture);
 
-                int compareAmount = int.Parse(parts[3].Replace("Compare: ", ""));
+                int compareAmount = int.Parse(parts[3].Replace("Compare:", "").Trim());
 
-                int swapsAmount = int.Parse(parts[4].Replace("Swaps: ", ""));
+                int swapsAmount = int.Parse(parts[4].Replace("Swaps:", "").Trim());
 
                 return new AlgorithmData
                 {
@@ -132,7 +132,7 @@ namespace ArrayRelatedFunctions
                     SwapsAmount = swapsAmount
                 };
             }
-            catch
+            catch (Exception ex) 
             {
                 return null;
             }

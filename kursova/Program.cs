@@ -60,7 +60,7 @@ public class Program
 
         } while (repeatProgramAgain);
 
-        List<AlgorithmData> results = new List<AlgorithmData>();
+        List<AlgorithmData> results = ArrayRelatedFunctions.FileOperations.GetAlgorithmDatas();
 
         if (results.Count == 4)
         {
@@ -71,7 +71,7 @@ public class Program
                 visualize.AddAlgorithmStats(data);
             }
 
-            visualize.ShowStats();
+            visualize.SaveChartsAsImages();
         }
     }
 }

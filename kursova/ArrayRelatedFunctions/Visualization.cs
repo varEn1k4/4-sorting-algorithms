@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
+using ScottPlot;
 
 
 namespace ArrayRelatedFunctions
@@ -19,33 +20,57 @@ namespace ArrayRelatedFunctions
     public class Visualization
     {
         private List<AlgorithmData> _stats;
-        
+
         public Visualization()
         {
             _stats = new List<AlgorithmData>();
         }
 
-        public void AddAlgorithmStats(string name, int compareAount, int swapsAmount, double time)
+        public void AddAlgorithmStats(AlgorithmData data)
         {
-            _stats.Add(new AlgorithmData
-            {
-                Name = name,
-                CompareAmount = compareAount,
-                SwapsAmount = swapsAmount,
-                Time = time
-            });
+            _stats.Add(data);
         }
 
-        public void ShowStats()
+        public void SaveChartsAsImages()
         {
-            Form form = new Form();
-            form.Text = "Result";
-            form.Size = new Size(800, 600);
-            form.StartPosition = FormStartPosition.CenterScreen;
+            if (_stats.Count == 0)
+            {
+                return;
+            }
 
-            TabControl tabControl = new TabControl();
+            if (!Directory.Exists(Constants.ImagesFolder))
+            {
+                Directory.CreateDirectory(Constants.ImagesFolder);
+            }
 
-            tabControl.TabPages.Add()
+            SaveSingleImage(Path.Combine(Constants.ImagesFolder, "Time_chart.png"), "Working time (ms)", s => s.Time);
+            SaveSingleImage(Path.Combine(Constants.ImagesFolder, "Compare_chart.png"), "Compare amount", s => s.CompareAmount);
+            SaveSingleImage(Path.Combine(Constants.ImagesFolder, "Swaps_chart.png"), "Swaps amount", s => s.SwapsAmount);
+
+        }
+
+        public void SaveSingleImage(string fileName, string Ylabel, Func<AlgorithmData, double> valueSelector)
+        {
+            Plot myPlot = new Plot();
+
+            double[] values = _stats.Select(valueSelector).ToArray();
+            string[] labels = _stats.Select(s => s.Name).ToArray();
+
+            var bars = myPlot.Add.Bars(values);
+
+            ScottPlot.TickGenerators.NumericManual tick = new ScottPlot.TickGenerators.NumericManual();
+
+            for (int i = 0; i < labels.Length; i++)
+            {
+                tick.AddMajor(i, labels[i]);
+            }
+            myPlot.Axes.Bottom.TickGenerator = tick;
+
+            myPlot.YLabel(Ylabel);
+            myPlot.XLabel("algorithm");
+            myPlot.Title($"Size: {_stats[0].Size} | {_stats[0].Direction}");
+
+            myPlot.SavePng(fileName, 800, 600);
         }
     }
 }

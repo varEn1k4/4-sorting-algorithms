@@ -3,6 +3,7 @@ using Sort;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml.Linq;
 
 namespace SortAlgorithms
 {
@@ -57,6 +58,14 @@ namespace SortAlgorithms
                 }
                 maxElement -= minElement;
             }
+
+            if (maxElement < 0 || maxElement > 5e7)
+            {
+                Console.WriteLine("Stack Overflow");
+
+                return;
+            }
+
             long[] arrayLongForIndexes = new long[(int)maxElement + 1];
 
             for (int i = 0; i < arrayLong.Length; i++)
