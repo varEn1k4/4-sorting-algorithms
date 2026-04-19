@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml.Linq;
+using Variables;
 
 namespace SortAlgorithms
 {
@@ -28,7 +29,7 @@ namespace SortAlgorithms
             long[] arrayLong = new long[array.Length];
             for (int i = 0; i < array.Length; i++)
             {
-                arrayLong[i] = (long)Math.Round(array[i] * 1e5F);
+                arrayLong[i] = (long)Math.Round(array[i] * Constants.ConvertNumbersWithFloatingPoints);
             }
 
             long minElement = arrayLong[0];
@@ -61,7 +62,7 @@ namespace SortAlgorithms
             if (maxElement < 0 || maxElement > 5e8)
             {
                 Console.WriteLine("Stack Overflow");
-
+                this.SortFailded = true;
                 return;
             }
 
@@ -107,7 +108,7 @@ namespace SortAlgorithms
 
             for (int i = 0; i < array.Length; i++)
             {
-                array[i] = (float)Math.Round(resultArray[i] / 1e5D);
+                array[i] = (float)Math.Round(resultArray[i] / Constants.ConvertNumbersWithFloatingPoints);
             }
         }
     }

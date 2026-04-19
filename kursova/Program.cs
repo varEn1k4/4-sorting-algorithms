@@ -53,7 +53,7 @@ public class Program
                 bool isAscending = sortDirection == SortDirection.Ascending;
 
                 ResultsAfterSorting finalResults = ConsoleUI.DisplayResults(sorter, array, algName, isAscending);
-                FileOperations.WriteResultToFile(finalResults, algName, isAscending, size, generationType);
+                FileOperations.SaveFinalResult(sorter, finalResults, algName, isAscending, size, generationType);
                 keepSameArray = ConsoleUI.AskUserToKeepSortingWithSameArray();
 
             } while (keepSameArray);

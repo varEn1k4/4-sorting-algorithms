@@ -14,6 +14,8 @@ namespace Sort
         protected abstract void SortAscending(float[] array);
         protected abstract void SortDescending(float[] array);
 
+        public bool SortFailded { get; protected set; } = false;
+
         public ResultsAfterSorting Ascending(float[] array)
         {
             return SortInDirection(array, true);

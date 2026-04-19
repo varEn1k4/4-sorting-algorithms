@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Variables;
 
 namespace SortAlgorithms
 {
@@ -27,7 +28,7 @@ namespace SortAlgorithms
             long[] arrayLong = new long[array.Length];
             for (int i = 0; i < array.Length; i++)
             {
-                arrayLong[i] = (long)Math.Ceiling(array[i] * 1e5F);
+                arrayLong[i] = (long)Math.Ceiling(array[i] * Constants.ConvertNumbersWithFloatingPoints);
             }
 
             //if array has negative elements
@@ -73,7 +74,7 @@ namespace SortAlgorithms
 
             for (int i = 0; i < arrayLong.Length; i++)
             {
-                array[i] = (float)(arrayLong[i] / 1e5D);
+                array[i] = (float)(arrayLong[i] / Constants.ConvertNumbersWithFloatingPoints);
             }
         }
 

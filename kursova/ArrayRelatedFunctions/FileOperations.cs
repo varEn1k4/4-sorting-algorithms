@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sort;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Variables;
@@ -37,6 +38,21 @@ namespace ArrayRelatedFunctions
             catch (Exception e)
             {
                 Console.WriteLine($"Error: {e.Message}");
+            }
+        }
+
+        public static void SaveFinalResult(BaseSorter sorter, ResultsAfterSorting results, string algName, bool ascending, int size, GenerationType type)
+        {
+            if (sorter.SortFailded)
+            {
+                string direction = ascending ? "Ascending" : "Descending";
+                string timeNow = DateTime.Now.ToString("HH:mm:ss");
+                string errorMesage = $"[{timeNow}] {algName} ({direction}) | Size: {size} | Failed: StackOverflow";
+                FileLever(errorMesage);
+            }
+            else
+            {
+                WriteResultToFile(results, algName, ascending, size, type);
             }
         }
 
