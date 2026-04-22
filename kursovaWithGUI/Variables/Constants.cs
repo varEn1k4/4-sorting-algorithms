@@ -13,7 +13,6 @@ namespace Variables
         public const float MaxLimit = 1e7f;
 
         public const float Precision = 1e-5f;
-        public const float ConvertNumbersWithFloatingPoints = 1e5f;
         public const int PrecisionDecimalPlaces = 5;
 
         public const string ResultFile = "results.txt";

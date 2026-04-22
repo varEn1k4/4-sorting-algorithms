@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Variables;
+﻿using Variables;
 
 public static class InputValidator
 {
@@ -24,7 +21,7 @@ public static class InputValidator
     {
         return float.TryParse(inputMin, out min)
                 && min >= Constants.MinLimit
-                && min <= Constants.MaxLimit;
+                && min <= Constants.MaxLimit - 1;
     }
 
     public static bool TryParseRangeMax(string inputMax, float min, out float max)
@@ -32,5 +29,34 @@ public static class InputValidator
         return float.TryParse(inputMax, out max)
                 && max >= min + 1
                 && max <= Constants.MaxLimit;
+    }
+
+    public static int GetDynamicMultiplier(float[] array)
+    {
+        int maxDecimalPlaces = 0;
+
+        foreach(float num in array)
+        {
+            string stringNumber = num.ToString("0.#####", System.Globalization.CultureInfo.InvariantCulture);
+
+            int dotIndex = stringNumber.IndexOf('.');
+
+            if (dotIndex != -1)
+            {
+                int currenPlaces = stringNumber.Length - dotIndex - 1;
+
+                if (currenPlaces > maxDecimalPlaces)
+                {
+                    maxDecimalPlaces = currenPlaces;
+                }
+            }
+
+            if (maxDecimalPlaces == 5)
+            {
+                break;
+            }
+        }
+
+        return (int)Math.Pow(10, maxDecimalPlaces);
     }
 }

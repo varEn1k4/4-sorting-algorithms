@@ -1,13 +1,5 @@
-﻿using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Sort;
 using SortAlgorithms;
 using ArrayRelatedFunctions;
@@ -30,7 +22,7 @@ namespace kursovaWithGUI
         {
             if (!InputValidator.TryParseSize(textSize.Text, out int size))
             {
-                MessageBox.Show("invalid size");
+                MessageBox.Show("Invalid size");
                 return;
             }
 
@@ -73,7 +65,7 @@ namespace kursovaWithGUI
         {
             if (_currentArray == null)
             {
-                MessageBox.Show("Generate an array first😡😡😡");
+                MessageBox.Show("Generate an array first");
                 return;
             }
 
@@ -149,12 +141,7 @@ namespace kursovaWithGUI
 
         private void btnExitClick(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show("Are you sure you want to exit?", "Exit", MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-            if (result == MessageBoxResult.Yes)
-            {
-                Application.Current.Shutdown();
-            }
+            Application.Current.Shutdown();
         }
     }
 }

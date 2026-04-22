@@ -25,13 +25,15 @@ namespace SortAlgorithms
                 return;
             }
 
+            int multipler = InputValidator.GetDynamicMultiplier(array);
+
             long[] arrayLong = new long[array.Length];
+
             for (int i = 0; i < array.Length; i++)
             {
-                arrayLong[i] = (long)Math.Ceiling(array[i] * Constants.ConvertNumbersWithFloatingPoints);
+                arrayLong[i] = (long)Math.Round(array[i] * multipler);
             }
 
-            //if array has negative elements
             long min = arrayLong[0];
             long max = arrayLong[0];
 
@@ -49,7 +51,6 @@ namespace SortAlgorithms
                 }
             }
 
-            //array contains negative element
             if (min < 0)
             {
                 for (int i = 0; i < arrayLong.Length; i++)
@@ -74,7 +75,7 @@ namespace SortAlgorithms
 
             for (int i = 0; i < arrayLong.Length; i++)
             {
-                array[i] = (float)(arrayLong[i] / Constants.ConvertNumbersWithFloatingPoints);
+                array[i] = (float)Math.Round(arrayLong[i] / (double)multipler, 5);
             }
         }
 

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:kursovaWithGUI"
         mc:Ignorable="d"
-        Title="Sort Application" Height="880" Width="400">
+        Title="Sort Application" Height="900" Width="400">
 
     <Grid Margin="20">
         <StackPanel HorizontalAlignment="Stretch">
@@ -17,7 +17,7 @@
             <TextBox Name="textSize" Height="25" Margin="0,0,0,10"/>
 
             <TextBlock Text="Minimal element:" Margin="0,0,0,5"/>
-            <TextBlock Text="(min: -1e7; max: 1e7; precision: 1e-5)" FontSize="11" Foreground="Gray" Margin="0,0,0,5"/>
+            <TextBlock Text="(min: -1e7; max: 1e7 - 1; precision: 1e-5)" FontSize="11" Foreground="Gray" Margin="0,0,0,5"/>
             <TextBox Name="textMin" Height="25" Margin="0,0,0,10"/>
 
             <TextBlock Text="Maximum element:" Margin="0,0,0,5"/>
@@ -46,7 +46,7 @@
             </ComboBox>
 
             <Border Background="#FFFFEEBA" BorderBrush="#FFFFD500" BorderThickness="1" CornerRadius="3" Margin="0,0,0,15" Padding="5">
-                <TextBlock Text="Counting Sort has a strict memory limit. If the range (Max - Min) is too large, it will fail safely." 
+                <TextBlock Text="Counting Sort has a strict memory limit. If the elements contains more than 8 symbols, it will fail safely." 
                        FontSize="11" Foreground="#FF856404" TextWrapping="Wrap"/>
             </Border>
             

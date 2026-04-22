@@ -26,10 +26,13 @@ namespace SortAlgorithms
                 return;
             }
 
+            int multiplier = InputValidator.GetDynamicMultiplier(array);
+
             long[] arrayLong = new long[array.Length];
+
             for (int i = 0; i < array.Length; i++)
             {
-                arrayLong[i] = (long)Math.Round(array[i] * Constants.ConvertNumbersWithFloatingPoints);
+                arrayLong[i] = (long)Math.Round(array[i] * multiplier);
             }
 
             long minElement = arrayLong[0];
@@ -108,7 +111,7 @@ namespace SortAlgorithms
 
             for (int i = 0; i < array.Length; i++)
             {
-                array[i] = (float)Math.Round(resultArray[i] / Constants.ConvertNumbersWithFloatingPoints);
+                array[i] = (float)Math.Round(resultArray[i] / (double)multiplier, 5);
             }
         }
     }

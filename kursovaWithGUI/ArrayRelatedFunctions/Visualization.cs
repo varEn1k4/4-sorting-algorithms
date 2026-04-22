@@ -38,22 +38,30 @@ namespace ArrayRelatedFunctions
                 return;
             }
 
+            var lastRun = _stats.Last();
+
+            var filteredStats = _stats
+                .Where(s => s.Size == lastRun.Size && s.Direction == lastRun.Direction)
+                .GroupBy(s => s.Name)
+                .Select(group => group.Last())
+                .ToList();
+
             if (!Directory.Exists(Constants.ImagesFolder))
             {
                 Directory.CreateDirectory(Constants.ImagesFolder);
             }
 
-            SaveSingleImage(Path.Combine(Constants.ImagesFolder, "Time_chart.png"), "Working time (ms)", s => s.Time);
-            SaveSingleImage(Path.Combine(Constants.ImagesFolder, "Compare_chart.png"), "Compare amount", s => s.CompareAmount);
-            SaveSingleImage(Path.Combine(Constants.ImagesFolder, "Swaps_chart.png"), "Swaps amount", s => s.SwapsAmount);
+            SaveSingleImage(Path.Combine(Constants.ImagesFolder, "Time_chart.png"), "Working time (ms)", s => s.Time, filteredStats);
+            SaveSingleImage(Path.Combine(Constants.ImagesFolder, "Compare_chart.png"), "Compare amount", s => s.CompareAmount, filteredStats);
+            SaveSingleImage(Path.Combine(Constants.ImagesFolder, "Swaps_chart.png"), "Swaps amount", s => s.SwapsAmount, filteredStats);
         }
 
-        private static void SaveSingleImage(string fileName, string Ylabel, Func<AlgorithmData, double> valueSelector)
+        private static void SaveSingleImage(string fileName, string Ylabel, Func<AlgorithmData, double> valueSelector, List<AlgorithmData> dataToProcess)
         {
             Plot myPlot = new Plot();
 
-            double[] values = _stats.Select(valueSelector).ToArray();
-            string[] labels = _stats.Select(s => s.Name).ToArray();
+            double[] values = dataToProcess.Select(valueSelector).ToArray();
+            string[] labels = dataToProcess.Select(s => s.Name).ToArray();
 
             var bars = myPlot.Add.Bars(values);
 
@@ -68,7 +76,7 @@ namespace ArrayRelatedFunctions
             myPlot.YLabel(Ylabel);
             myPlot.XLabel("algorithm");
 
-            myPlot.Title($"Size: {_stats[0].Size} | {_stats[0].Direction}");
+            myPlot.Title($"Size: {dataToProcess[0].Size} | {dataToProcess[0].Direction}");
 
             myPlot.SavePng(fileName, 800, 600);
         }
