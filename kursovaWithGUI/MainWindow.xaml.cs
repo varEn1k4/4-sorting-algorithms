@@ -133,7 +133,7 @@ namespace kursovaWithGUI
         {
             Visualization.SaveChartsAsImages();
 
-            MessageBox.Show("Charts have been successfully generated and saved to the 'Images' folder",
+            MessageBox.Show("Charts have been successfully generated and saved to the 'images' folder",
                             "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
             Visualization.ClearStats();

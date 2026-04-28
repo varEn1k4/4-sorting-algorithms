@@ -1,8 +1,4 @@
 ﻿using Sort;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Variables;
 
 namespace SortAlgorithms
 {

@@ -17,8 +17,6 @@ namespace Variables
 
         public const string ResultFile = "results.txt";
         public const string ImagesFolder = "images";
-        public const string ChangeArrayLever = "[Changed Array]";
-        public const string EndOfSession = "[End]";
     }
 
 }
