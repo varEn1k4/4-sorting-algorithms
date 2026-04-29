@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Variables
+﻿namespace Variables
 {
     public class Constants
     {
@@ -11,9 +7,6 @@ namespace Variables
 
         public const float MinLimit = -1e7f;
         public const float MaxLimit = 1e7f;
-
-        public const float Precision = 1e-5f;
-        public const int PrecisionDecimalPlaces = 5;
 
         public const string ResultFile = "results.txt";
         public const string ImagesFolder = "images";
