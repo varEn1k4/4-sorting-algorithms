@@ -48,14 +48,12 @@ namespace SortAlgorithms
                 }
             }
 
-            if (minElement < 0)
+            long shift = minElement;
+            for (int i = 0; i < arrayLong.Length; i++)
             {
-                for (int i = 0;  i < arrayLong.Length; i++)
-                {
-                    arrayLong[i] -= minElement;
-                }
-                maxElement -= minElement;
+                arrayLong[i] -= minElement;
             }
+            maxElement -= shift;
 
             if (maxElement < 0 || maxElement > 5e8)
             {
@@ -96,12 +94,9 @@ namespace SortAlgorithms
                 swaps++;
             }
 
-            if (minElement < 0)
+            for (int i = 0; i < resultArray.Length; i++)
             {
-                for (int i = 0;  i < resultArray.Length; i++)
-                {
-                    resultArray[i] += minElement;
-                }
+                resultArray[i] += shift;
             }
 
             for (int i = 0; i < array.Length; i++)

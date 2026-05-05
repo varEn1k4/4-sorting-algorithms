@@ -46,7 +46,7 @@
             </ComboBox>
 
             <Border Background="#FFFFEEBA" BorderBrush="#FFFFD500" BorderThickness="1" CornerRadius="3" Margin="0,0,0,15" Padding="5">
-                <TextBlock Text="Counting Sort has a strict memory limit. If the elements contains more than 8 symbols, it will fail safely." 
+                <TextBlock Text="Counting Sort has a strict memory limit. If the difference between max element and min element is too big, it will fail safely." 
                        FontSize="11" Foreground="#FF856404" TextWrapping="Wrap"/>
             </Border>
             
