@@ -73,6 +73,7 @@ namespace SortAlgorithms
                         {
                             array[currentIndex++] = item;
                             swaps++;
+                            OnStep?.Invoke(array);
                         }
                     }
                 }
@@ -89,6 +90,7 @@ namespace SortAlgorithms
                         {
                             array[currentIndex++] = item;
                             swaps++;
+                            OnStep?.Invoke(array);
                         }
                     }
                 }

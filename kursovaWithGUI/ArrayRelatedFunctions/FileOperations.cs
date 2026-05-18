@@ -6,7 +6,7 @@ namespace ArrayRelatedFunctions
 {
     public class FileOperations
     {
-        public static void WriteResultToFile(ResultsAfterSorting results, string algName, bool ascending, int size, GenerationType type)
+        private static void WriteResultToFile(ResultsAfterSorting results, string algName, bool ascending, int size, GenerationType type)
         {
             try
             {
@@ -24,13 +24,16 @@ namespace ArrayRelatedFunctions
             }
 
         }
-        public static void FileLever(string message)
+        private static void FileLever(ResultsAfterSorting results, string algName, bool ascending, int size, GenerationType type)
         {
             try
             {
                 using (StreamWriter sw = new StreamWriter(Constants.ResultFile, true))
                 {
-                    sw.WriteLine(message);
+                    string direction = ascending ? "Ascending" : "Descending";
+                    string timeNow = DateTime.Now.ToString("HH:mm:ss");
+                    string errorMesage = $"[{timeNow}] {algName} ({direction}) | Size: {size} | Failed: StackOverflow";
+                    sw.WriteLine(errorMesage);
                 }
             }
             catch (Exception e)
@@ -43,10 +46,7 @@ namespace ArrayRelatedFunctions
         {
             if (sorter.SortFailed)
             {
-                string direction = ascending ? "Ascending" : "Descending";
-                string timeNow = DateTime.Now.ToString("HH:mm:ss");
-                string errorMesage = $"[{timeNow}] {algName} ({direction}) | Size: {size} | Failed: StackOverflow";
-                FileLever(errorMesage);
+                FileLever(results, algName, ascending, size, type);
             }
             else
             {

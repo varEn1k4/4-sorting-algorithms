@@ -1,81 +1,69 @@
-﻿using System.IO;
-using ScottPlot;
+﻿using System;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Shapes;
 using Variables;
 
 namespace ArrayRelatedFunctions
 {
-    public class AlgorithmData
-    {
-        public string Name { get; set; }
-        public string Direction { get; set; }
-        public int Size { get; set; }
-        public int CompareAmount { get; set; }
-        public int SwapsAmount { get; set; }
-        public double Time { get; set; }
-    }
     public static class Visualization
     {
-        private static List<AlgorithmData> _stats = new List<AlgorithmData>();
-
-        public static void AddAlgorithmStats(AlgorithmData data)
+        public static Action<float[]> CreateAnimationAction(Canvas sortCanvas)
         {
-            _stats.Add(data);
-        }
-
-        public static void ClearStats()
-        {
-            _stats.Clear();
-        }
-
-        public static void SaveChartsAsImages()
-        {
-            if (_stats.Count == 0)
+            return (currentArray) =>
             {
-                return;
-            }
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    sortCanvas.Children.Clear();
+                    double width = sortCanvas.ActualWidth / currentArray.Length;
 
-            var lastRun = _stats.Last();
+                    float max = currentArray.Length > 0 ? currentArray.Max() : 1;
+                    float min = currentArray.Length > 0 ? currentArray.Min() : 0;
+                    float maxAbs = Math.Max(Math.Abs(max), Math.Abs(min));
 
-            var filteredStats = _stats
-                .Where(s => s.Size == lastRun.Size && s.Direction == lastRun.Direction)
-                .GroupBy(s => s.Name)
-                .Select(group => group.Last())
-                .ToList();
+                    if (maxAbs == 0)
+                    {
+                        maxAbs = 1;
+                    }
 
-            if (!Directory.Exists(Constants.ImagesFolder))
-            {
-                Directory.CreateDirectory(Constants.ImagesFolder);
-            }
+                    double zeroLine = sortCanvas.ActualHeight / 2;
 
-            SaveSingleImage(Path.Combine(Constants.ImagesFolder, "Time_chart.png"), "Working time (ms)", s => s.Time, filteredStats);
-            SaveSingleImage(Path.Combine(Constants.ImagesFolder, "Compare_chart.png"), "Compare amount", s => s.CompareAmount, filteredStats);
-            SaveSingleImage(Path.Combine(Constants.ImagesFolder, "Swaps_chart.png"), "Swaps amount", s => s.SwapsAmount, filteredStats);
-        }
+                    //x
+                    Line axis = new Line
+                    {
+                        X1 = 0,
+                        X2 = sortCanvas.ActualWidth,
+                        Y1 = zeroLine,
+                        Y2 = zeroLine,
+                        Stroke = Brushes.LightGray,
+                        StrokeThickness = 1
+                    };
+                    sortCanvas.Children.Add(axis);
 
-        private static void SaveSingleImage(string fileName, string Ylabel, Func<AlgorithmData, double> valueSelector, List<AlgorithmData> dataToProcess)
-        {
-            Plot myPlot = new Plot();
+                    for (int i = 0; i < currentArray.Length; i++)
+                    {
+                        float val = currentArray[i];
+                        double rectHeight = (Math.Abs(val) / maxAbs) * zeroLine;
 
-            double[] values = dataToProcess.Select(valueSelector).ToArray();
-            string[] labels = dataToProcess.Select(s => s.Name).ToArray();
+                        Rectangle rect = new Rectangle
+                        {
+                            Width = width > 1 ? width - 0.5 : 1,
+                            Height = rectHeight,
+                            Fill = val >= 0 ? Brushes.SteelBlue : Brushes.IndianRed
+                        };
 
-            var bars = myPlot.Add.Bars(values);
+                        Canvas.SetLeft(rect, i * width);
+                        Canvas.SetTop(rect, val >= 0 ? zeroLine - rectHeight : zeroLine);
 
-            ScottPlot.TickGenerators.NumericManual tick = new ScottPlot.TickGenerators.NumericManual();
+                        sortCanvas.Children.Add(rect);
+                    }
+                }, System.Windows.Threading.DispatcherPriority.Background);
 
-            for (int i = 0; i < labels.Length; i++)
-            {
-                tick.AddMajor(i, labels[i]);
-            }
-            myPlot.Axes.Bottom.TickGenerator = tick;
-
-            myPlot.YLabel(Ylabel);
-            myPlot.XLabel("algorithm");
-
-            myPlot.Title($"Size: {dataToProcess[0].Size} | {dataToProcess[0].Direction}");
-
-            myPlot.SavePng(fileName, 800, 600);
-        }
+                System.Threading.Thread.Sleep(10);
+            };
+        } 
     }
 
 }

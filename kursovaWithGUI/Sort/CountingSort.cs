@@ -22,86 +22,44 @@ namespace SortAlgorithms
             }
 
             int multiplier = InputValidator.GetDynamicMultiplier(array);
-
-            long[] arrayLong = new long[array.Length];
-
-            for (int i = 0; i < array.Length; i++)
-            {
-                arrayLong[i] = (long)Math.Round(array[i] * multiplier);
-            }
-
-            long minElement = arrayLong[0];
-            long maxElement = arrayLong[0];
-
-            for (int i = 1; i < arrayLong.Length; i++)
-            {
-                comparisons += 2;
-
-                if (arrayLong[i] < minElement)
-                {
-                    minElement = arrayLong[i];
-                }
-
-                if (arrayLong[i] > maxElement)
-                {
-                    maxElement = arrayLong[i];
-                }
-            }
-
-            long shift = minElement;
-            for (int i = 0; i < arrayLong.Length; i++)
-            {
-                arrayLong[i] -= minElement;
-            }
-            maxElement -= shift;
-
-            if (maxElement < 0 || maxElement > 5e8)
-            {
-                Console.WriteLine("Stack Overflow");
-                this.SortFailed = true;
-                return;
-            }
-
-            long[] arrayLongForIndexes = new long[(int)maxElement + 1];
-
-            for (int i = 0; i < arrayLong.Length; i++)
-            {
-                arrayLongForIndexes[arrayLong[i]]++;
-            }
-
-
-            if (ascending)
-            {
-                for (int i = 1; i < arrayLongForIndexes.Length; i++)
-                {
-                    arrayLongForIndexes[i] = arrayLongForIndexes[i - 1] + arrayLongForIndexes[i];
-                }
-            }
-            else
-            {
-                for (int i = arrayLongForIndexes.Length - 2; i >= 0; i--)
-                {
-                    arrayLongForIndexes[i] = arrayLongForIndexes[i] + arrayLongForIndexes[i + 1];
-                }
-            }
-
-            long[] resultArray = new long[arrayLong.Length];
-
-            for (int i = arrayLong.Length - 1; i >= 0; i--)
-            {
-                resultArray[arrayLongForIndexes[arrayLong[i]] - 1] = arrayLong[i];
-                arrayLongForIndexes[arrayLong[i]]--;
-                swaps++;
-            }
-
-            for (int i = 0; i < resultArray.Length; i++)
-            {
-                resultArray[i] += shift;
-            }
+            Dictionary<long, int> counts = new Dictionary<long, int>(array.Length);
 
             for (int i = 0; i < array.Length; i++)
             {
-                array[i] = (float)Math.Round(resultArray[i] / (double)multiplier, 5);
+                long val = (long)Math.Round(array[i] * multiplier);
+
+                if (counts.ContainsKey(val))
+                {
+                    counts[val]++;
+                }
+                else
+                {
+                    counts[val] = 1;
+                }
+
+                comparisons++;
+            }
+
+            List<long> uniqueKeys = counts.Keys.ToList();
+            uniqueKeys.Sort();
+
+            if (!ascending)
+            {
+                uniqueKeys.Reverse();
+            }
+
+            int index = 0;
+            foreach (long key in uniqueKeys)
+            {
+                int count = counts[key];
+
+                for (int i = 0; i < count; i++)
+                {
+                    array[index++] = (float)Math.Round(key / (double)multiplier, 5);
+                    swaps++; 
+
+                    OnStep?.Invoke(array);
+                }
             }
         }
     }

@@ -61,7 +61,7 @@ namespace kursovaWithGUI
             _currentGenerationType = generationType;
         }
 
-        private void btnSortClick(object sender, RoutedEventArgs e)
+        private async void btnSortClick(object sender, RoutedEventArgs e)
         {
             if (_currentArray == null)
             {
@@ -92,11 +92,23 @@ namespace kursovaWithGUI
                     break;
             }
 
+            if (cbAnimate.IsChecked == true)
+            {
+                sorter.OnStep = Visualization.CreateAnimationAction(SortCanvas);
+            }
+            else
+            {
+                sorter.OnStep = null;
+            }
+
             bool isAscending = rbAsc.IsChecked == true;
 
-            ResultsAfterSorting results = isAscending
-                ? sorter.Ascending(arrayToSort)
-                : sorter.Descending(arrayToSort);
+            ResultsAfterSorting results = null;
+            await Task.Run(() =>
+            {
+                results = isAscending ? sorter.Ascending(arrayToSort) : sorter.Descending(arrayToSort);
+            });
+
 
             if (sorter.SortFailed)
             {
@@ -113,32 +125,7 @@ namespace kursovaWithGUI
             }
 
             FileOperations.SaveFinalResult(sorter, results, algName, isAscending, _currentSize, _currentGenerationType);
-
-            if (!sorter.SortFailed)
-            {
-                AlgorithmData data = new AlgorithmData
-                {
-                    Name = algName,
-                    Direction = isAscending ? "Ascending" : "Descending",
-                    Size = _currentSize,
-                    CompareAmount = (int)results.CompareAmount,
-                    SwapsAmount = (int)results.SwapsAmount,
-                    Time = results.ExecutionTimeMs,
-                };
-                Visualization.AddAlgorithmStats(data);
-            }
         }
-
-        private void btnDrawChartClick(object sender, RoutedEventArgs e)
-        {
-            Visualization.SaveChartsAsImages();
-
-            MessageBox.Show("Charts have been successfully generated and saved to the 'images' folder",
-                            "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-
-            Visualization.ClearStats();
-        }
-
         private void btnExitClick(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();

@@ -8,6 +8,7 @@ namespace Sort
         protected ulong comparisons;
         protected ulong swaps;
 
+        public Action<float[]> OnStep { get; set; }
         protected abstract void SortAscending(float[] array);
         protected abstract void SortDescending(float[] array);
 
