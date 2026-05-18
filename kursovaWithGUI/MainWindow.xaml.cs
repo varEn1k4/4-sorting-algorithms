@@ -18,6 +18,17 @@ namespace kursovaWithGUI
             InitializeComponent();
         }
 
+        private BaseSorter GetSorterAlgorithm(AlgorithmType type)
+        {
+            return type switch
+            {
+                AlgorithmType.CountingSort => new CountingSort(),
+                AlgorithmType.RadixSort => new RadixSort(),
+                AlgorithmType.BucketSort => new BucketSort(),
+                AlgorithmType.FlashSort => new FlashSort(),
+            };
+        }
+
         private void btnGenerateClick(object sender, RoutedEventArgs e)
         {
             if (!InputValidator.TryParseSize(textSize.Text, out int size))
@@ -38,23 +49,7 @@ namespace kursovaWithGUI
                 return;
             }
 
-            string selectedType = (AlgorithmsDirection.SelectedItem as ComboBoxItem).Content.ToString();
-            GenerationType generationType = 0;
-
-            switch (selectedType)
-            {
-                case "Random":
-                    generationType = GenerationType.Random;
-                    break;
-
-                case "Ascending": 
-                    generationType = GenerationType.Ascending;
-                    break;
-
-                case "Descending":
-                    generationType = GenerationType.Descending;
-                    break;
-            }
+            GenerationType generationType = (GenerationType)(AlgorithmsDirection.SelectedIndex + 1);
             
             _currentArray = ArrayManager.CreateArray(size, minElement, maxElement, generationType);
             _currentSize = size;
@@ -70,27 +65,14 @@ namespace kursovaWithGUI
             }
 
             float[] arrayToSort = (float[])_currentArray.Clone();
-            BaseSorter sorter = null;
+
+            AlgorithmType algType = (AlgorithmType)(chooseAlgorithms.SelectedIndex + 1);
             string algName = (chooseAlgorithms.SelectedItem as ComboBoxItem).Content.ToString();
+            SortDirection direction = rbAsc.IsChecked == true 
+                ? SortDirection.Ascending 
+                : SortDirection.Descending;
 
-            switch (algName)
-            {
-                case "Counting Sort":
-                    sorter = new CountingSort();
-                    break;
-
-                case "Radix Sort":
-                    sorter = new RadixSort();
-                    break;
-
-                case "Bucket Sort":
-                    sorter = new BucketSort();
-                    break;
-
-                case "Flash Sort":
-                    sorter = new FlashSort();
-                    break;
-            }
+            BaseSorter sorter = GetSorterAlgorithm(algType);
 
             if (cbAnimate.IsChecked == true)
             {
@@ -101,30 +83,20 @@ namespace kursovaWithGUI
                 sorter.OnStep = null;
             }
 
-            bool isAscending = rbAsc.IsChecked == true;
-
             ResultsAfterSorting results = null;
+
             await Task.Run(() =>
             {
-                results = isAscending ? sorter.Ascending(arrayToSort) : sorter.Descending(arrayToSort);
+                results = (direction == SortDirection.Ascending)
+                ? sorter.Ascending(arrayToSort) 
+                : sorter.Descending(arrayToSort);
             });
 
+            lblTime.Text = $"Time: {results.ExecutionTimeMs}";
+            lblCompares.Text = $"Compare: {results.CompareAmount}";
+            lblSwaps.Text = $"Swaps: {results.SwapsAmount}";
 
-            if (sorter.SortFailed)
-            {
-                lblTime.Text = "Time: failed";
-                lblCompares.Text = "Compare: ---";
-                lblSwaps.Text = "Swaps: ---";
-                MessageBox.Show("memory limit");
-            }
-            else
-            {
-                lblTime.Text = $"Time: {results.ExecutionTimeMs}";
-                lblCompares.Text = $"Compare: {results.CompareAmount}";
-                lblSwaps.Text = $"Swaps: {results.SwapsAmount}";
-            }
-
-            FileOperations.SaveFinalResult(sorter, results, algName, isAscending, _currentSize, _currentGenerationType);
+            FileOperations.SaveFinalResult(results, algName, direction, _currentSize, _currentGenerationType);
         }
         private void btnExitClick(object sender, RoutedEventArgs e)
         {

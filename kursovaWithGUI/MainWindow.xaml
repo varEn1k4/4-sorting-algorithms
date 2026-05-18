@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:kursovaWithGUI"
         mc:Ignorable="d"
-        Title="Sort Application" Height="840" Width="850">
+        Title="Sort Application" Height="850" Width="850">
     <Grid Margin="20">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="360"/>
@@ -22,7 +22,7 @@
             <TextBox Name="textSize" Height="25" Margin="0,0,0,10"/>
 
             <TextBlock Text="Minimal element:" Margin="0,0,0,5"/>
-            <TextBlock Text="(min: -1e7; max: 1e7 - 1; precision: 1e-5)" FontSize="11" Foreground="Gray" Margin="0,0,0,5"/>
+            <TextBlock Text="(min: -1e7; max: 1e7 - 1; precision: 1e-5)" FontSize="11" Foreground="Gray" Margin="0,0,0,10"/>
             <TextBox Name="textMin" Height="25" Margin="0,0,0,10"/>
 
             <TextBlock Text="Maximum element:" Margin="0,0,0,5"/>
@@ -56,8 +56,8 @@
             </StackPanel>
 
             <CheckBox Name="cbAnimate" Content="Show live animation (skip for large arrays)" 
-          IsChecked="True" Margin="0,0,0,15" FontWeight="Bold" Foreground="#FF0056B3"/>
-            
+                      IsChecked="True" Margin="0,0,0,15" FontWeight="Bold" Foreground="#FF0056B3"/>
+
             <Button Name="btnSort" Content="Sort" Height="40" Click="btnSortClick"
                     Background="#FF28A745" Foreground="White" FontSize="14" FontWeight="Bold" Cursor="Hand"/>
 
@@ -70,7 +70,7 @@
             </GroupBox>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
-                <Button Name="btnExit" Content="Exit" Height="35" Width="120" 
+                <Button Name="btnExit" Content="Exit" Height="35" Width="100" 
                         Click="btnExitClick" Background="#FFDC3545" Foreground="White" FontWeight="Bold" Cursor="Hand"
                         ToolTip="Close the application"/>
             </StackPanel>
