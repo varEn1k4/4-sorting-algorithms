@@ -59,6 +59,19 @@ namespace SortAlgorithms
             for (long e = 1; max / e > 0; e *= 10)
             {
                 CountingSortByDigits(arrayLong, e, ascending);
+
+
+                for (int i = 0; i < arrayLong.Length; i++)
+                {
+                    long displayVal = min < 0 ? arrayLong[i] + min : arrayLong[i];
+                    array[i] = (float)Math.Round(displayVal / (double)multipler, 5);
+                }
+                OnStep?.Invoke(array);
+
+                if (OnStep != null)
+                {
+                    System.Threading.Thread.Sleep(300);
+                }
             }
 
             if (min < 0)
@@ -72,8 +85,8 @@ namespace SortAlgorithms
             for (int i = 0; i < arrayLong.Length; i++)
             {
                 array[i] = (float)Math.Round(arrayLong[i] / (double)multipler, 5);
-                OnStep?.Invoke(array);
             }
+            OnStep?.Invoke(array);
         }
 
         private void CountingSortByDigits(long[] array, long exp, bool ascending)

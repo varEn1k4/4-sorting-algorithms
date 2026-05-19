@@ -10,6 +10,8 @@
 
         public const string ResultFile = "results.txt";
         public const string ImagesFolder = "images";
+
+        public const int TimeBetweenNextStep = 20;
     }
 
 }

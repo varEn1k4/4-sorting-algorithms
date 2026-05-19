@@ -76,13 +76,12 @@ namespace SortAlgorithms
                     classK = (int)(c * (flash - min));
                     int holdIndex = --l[classK];
 
-                    
-
                     float hold = array[holdIndex];
                     array[holdIndex] = flash;
                     swaps++;
                     flash = hold;
                     move++;
+                    OnStep?.Invoke(array);
                 }
             }
 
@@ -185,6 +184,7 @@ namespace SortAlgorithms
                     swaps++;
                     flash = hold;
                     move++;
+                    OnStep?.Invoke(array);
                 }
             }
 
