@@ -73,20 +73,6 @@ namespace SortAlgorithms
                     System.Threading.Thread.Sleep(300);
                 }
             }
-
-            if (min < 0)
-            {
-                for (int i = 0; i < arrayLong.Length; i++)
-                {
-                    arrayLong[i] += min;
-                }
-            }
-
-            for (int i = 0; i < arrayLong.Length; i++)
-            {
-                array[i] = (float)Math.Round(arrayLong[i] / (double)multipler, 5);
-            }
-            OnStep?.Invoke(array);
         }
 
         private void CountingSortByDigits(long[] array, long exp, bool ascending)

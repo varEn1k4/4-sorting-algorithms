@@ -116,7 +116,10 @@ namespace SortAlgorithms
             if (array.Length == 0) return;
 
             int m = (int)(0.45 * array.Length);
-            if (m <= 0) m = 1;
+            if (m <= 0)
+            {
+                m = 1;
+            }
 
             int[] l = new int[m];
 
