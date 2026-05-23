@@ -36,7 +36,7 @@
                 <ComboBoxItem Content="Descending"/>
             </ComboBox>
 
-            <Button Name="buttonGenerateClick" Content="Generate Array" Height="35" Click="btnGenerateClick" 
+            <Button Name="btnGenerate" Content="Generate Array" Height="35" Click="btnGenerateClick" 
                     Background="Orange" Foreground="White" FontSize="14" FontWeight="Bold"/>
 
             <Label Height="15"/>

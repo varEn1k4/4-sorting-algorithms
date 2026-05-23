@@ -30,7 +30,6 @@ namespace ArrayRelatedFunctions
 
                     double zeroLine = sortCanvas.ActualHeight / 2;
 
-                    //x
                     Line axis = new Line
                     {
                         X1 = 0,

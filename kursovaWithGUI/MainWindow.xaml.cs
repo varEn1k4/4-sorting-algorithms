@@ -64,39 +64,54 @@ namespace kursovaWithGUI
                 return;
             }
 
-            float[] arrayToSort = (float[])_currentArray.Clone();
 
-            AlgorithmType algType = (AlgorithmType)(chooseAlgorithms.SelectedIndex + 1);
-            string algName = (chooseAlgorithms.SelectedItem as ComboBoxItem).Content.ToString();
-            SortDirection direction = rbAsc.IsChecked == true 
-                ? SortDirection.Ascending 
-                : SortDirection.Descending;
+            btnSort.IsEnabled = false;
+            btnGenerate.IsEnabled = false;
+            chooseAlgorithms.IsEnabled = false;
 
-            BaseSorter sorter = GetSorterAlgorithm(algType);
-
-            if (cbAnimate.IsChecked == true)
+            try
             {
-                sorter.OnStep = Visualization.CreateAnimationAction(SortCanvas);
+                float[] arrayToSort = (float[])_currentArray.Clone();
+
+                AlgorithmType algType = (AlgorithmType)(chooseAlgorithms.SelectedIndex + 1);
+                string algName = (chooseAlgorithms.SelectedItem as ComboBoxItem).Content.ToString();
+                SortDirection direction = rbAsc.IsChecked == true
+                    ? SortDirection.Ascending
+                    : SortDirection.Descending;
+
+                BaseSorter sorter = GetSorterAlgorithm(algType);
+
+                if (cbAnimate.IsChecked == true)
+                {
+                    sorter.OnStep = Visualization.CreateAnimationAction(SortCanvas);
+                }
+                else
+                {
+                    sorter.OnStep = null;
+                }
+
+                ResultsAfterSorting results = null;
+
+                await Task.Run(() =>
+                {
+                    results = (direction == SortDirection.Ascending)
+                    ? sorter.Ascending(arrayToSort)
+                    : sorter.Descending(arrayToSort);
+                });
+
+                lblTime.Text = $"Time: {results.ExecutionTimeMs}";
+                lblCompares.Text = $"Compare: {results.CompareAmount}";
+                lblSwaps.Text = $"Swaps: {results.SwapsAmount}";
+
+                FileOperations.SaveFinalResult(results, algName, direction, _currentSize, _currentGenerationType);
             }
-            else
+            finally
             {
-                sorter.OnStep = null;
+                btnSort.IsEnabled = true;
+                btnGenerate.IsEnabled = true;
+                chooseAlgorithms.IsEnabled = true;
             }
-
-            ResultsAfterSorting results = null;
-
-            await Task.Run(() =>
-            {
-                results = (direction == SortDirection.Ascending)
-                ? sorter.Ascending(arrayToSort) 
-                : sorter.Descending(arrayToSort);
-            });
-
-            lblTime.Text = $"Time: {results.ExecutionTimeMs}";
-            lblCompares.Text = $"Compare: {results.CompareAmount}";
-            lblSwaps.Text = $"Swaps: {results.SwapsAmount}";
-
-            FileOperations.SaveFinalResult(results, algName, direction, _currentSize, _currentGenerationType);
+           
         }
         private void btnExitClick(object sender, RoutedEventArgs e)
         {
